@@ -1,0 +1,17 @@
+.home {
+  padding: 50px 96px;
+
+  .heading {
+    color: #37352f;
+    font-size: 32px;
+  }
+
+  .taskscontainer {
+    margin-top: 30px;
+    padding-top: 8px;
+    border-top: 0.2px solid #37352fa6;
+    display: flex;
+    gap: 10px;
+    overflow-x: scroll;
+  }
+}

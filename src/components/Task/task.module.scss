@@ -1,0 +1,12 @@
+.container {
+  width: 95%;
+  margin: 12px 2px;
+  padding: 8px 10px;
+  box-shadow: #0f0f0f1a 0px 0px 0px 1px, #0f0f0f1a 0px 2px 4px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #37352f08;
+  }
+}
