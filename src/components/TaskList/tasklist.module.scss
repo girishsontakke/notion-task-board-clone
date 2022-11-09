@@ -2,4 +2,50 @@
   width: 33.33%;
   min-height: 100vh;
   padding-bottom: 20px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .addIcon {
+      display: none;
+      color: #37352f80;
+      font-size: 24px;
+      font-weight: lighter;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  }
+  .tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 2px;
+  }
+  .newTask {
+    color: #37352f80;
+    font-size: 16px;
+    font-weight: lighter;
+    cursor: pointer;
+    width: 95%;
+    padding: 8px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .icon {
+      font-size: 24px;
+      margin-top: -4px;
+    }
+
+    &:hover {
+      background-color: #37352f18;
+    }
+  }
+
+  &:hover .header .addIcon {
+    display: block;
+  }
 }
