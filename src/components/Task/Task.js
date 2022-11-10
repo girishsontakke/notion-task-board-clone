@@ -12,8 +12,18 @@ function Task(props) {
     setIsModalOpen(true);
     setInitialValues(task);
   };
+
+  const handleDragStart = (event) => {
+    event.dataTransfer.setData("text/plain", task.id);
+    event.dataTransfer.effectAllowed = "move";
+  };
   return (
-    <div className={styles.container} onClick={handleClick}>
+    <div
+      className={styles.container}
+      onClick={handleClick}
+      onDragStart={handleDragStart}
+      draggable={true}
+    >
       <p>{task.title}</p>
     </div>
   );
