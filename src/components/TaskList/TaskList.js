@@ -17,11 +17,10 @@ function TaskList({ status }) {
   };
 
   const filteredTasks = tasklist?.filter((task) => task.status === status.id);
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <Status status={status} />
+        <Status status={status} count={filteredTasks?.length} />
         <span className={styles.addIcon} onClick={handleClick}>
           +
         </span>

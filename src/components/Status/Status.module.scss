@@ -1,9 +1,17 @@
-.status {
-  width: fit-content;
-  padding: 3px 6px;
-  margin: 12px 0px;
-  border-radius: 2px;
-  font-size: 14px;
-  line-height: 120%;
-  font-weight: 530;
+.statusContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  .status {
+    width: fit-content;
+    padding: 3px 6px;
+    margin: 12px 0px;
+    border-radius: 2px;
+    font-size: 14px;
+    line-height: 120%;
+    font-weight: 530;
+  }
+  .count {
+    color: #37352f80;
+  }
 }

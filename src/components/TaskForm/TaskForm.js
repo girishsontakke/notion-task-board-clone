@@ -3,6 +3,7 @@ import { TaskContext } from "context/TaskContextProvider";
 import { TaskFormContext } from "context/TaskFormContextProvider";
 import statuslist from "data/status";
 import React, { useContext, useEffect } from "react";
+import { updateOrCreateTask } from "utils/appUtils";
 import styles from "./taskForm.module.scss";
 
 const Option = Select.Option;
@@ -28,13 +29,7 @@ function TaskForm() {
   };
 
   const onFinish = async (values) => {
-    const tasks = (await JSON.parse(localStorage.getItem("tasks"))) || [];
-    tasks.push({
-      ...values,
-      id: new Date().toISOString()
-    });
-    localStorage.removeItem("tasks");
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    await updateOrCreateTask(values, initialValues);
     form.resetFields();
     setInitialValues(null);
     window.dispatchEvent(new Event("storage"));
