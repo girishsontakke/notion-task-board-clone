@@ -3,7 +3,7 @@ import { TaskContext } from "context/TaskContextProvider";
 import { TaskFormContext } from "context/TaskFormContextProvider";
 import statuslist from "data/status";
 import React, { useContext, useEffect } from "react";
-import { updateOrCreateTask } from "utils/appUtils";
+import { deleteTask, updateOrCreateTask } from "utils/appUtils";
 import styles from "./taskForm.module.scss";
 
 const Option = Select.Option;
@@ -14,7 +14,7 @@ function TaskForm() {
   const { initialValues, setInitialValues } = useContext(TaskFormContext);
 
   useEffect(() => {
-    form.setFieldValue(initialValues);
+    form.setFieldsValue(initialValues);
     return () => {
       form.resetFields();
     };
@@ -30,14 +30,16 @@ function TaskForm() {
 
   const onFinish = async (values) => {
     await updateOrCreateTask(values, initialValues);
-    form.resetFields();
     setInitialValues(null);
     window.dispatchEvent(new Event("storage"));
     setIsModalOpen(false);
   };
 
-  const onReset = () => {
-    form.resetFields();
+  const onDelete = async () => {
+    await deleteTask(initialValues);
+    setInitialValues(null);
+    window.dispatchEvent(new Event("storage"));
+    setIsModalOpen(false);
   };
 
   return (
@@ -73,11 +75,13 @@ function TaskForm() {
           htmlType="submit"
           className={styles.submitButton}
         >
-          Submit
+          {initialValues?.id ? "UPDATE" : "CREATE TASK"}
         </Button>
-        <Button htmlType="button" onClick={onReset}>
-          Reset
-        </Button>
+        {initialValues?.id && (
+          <Button htmlType="button" onClick={onDelete} danger>
+            DELETE
+          </Button>
+        )}
       </Form.Item>
     </Form>
   );

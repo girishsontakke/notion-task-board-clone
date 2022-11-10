@@ -14,7 +14,9 @@ function Home() {
 
   return (
     <main className={styles.home}>
-      <h1 className={styles.heading}>✔️ Task List</h1>
+      <h1 className={styles.heading}>
+        <span role="img">✔️</span> Task List
+      </h1>
 
       <div className={styles.taskscontainer}>
         {statuslist.map((status) => (

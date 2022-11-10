@@ -19,3 +19,11 @@ export const updateOrCreateTask = async (values, initialValues = {}) => {
   localStorage.removeItem("tasks");
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
+
+export const deleteTask = async (taskToDelete) => {
+  let tasks = (await JSON.parse(localStorage.getItem("tasks"))) || [];
+  tasks = tasks.filter((task) => task.id !== taskToDelete.id);
+
+  localStorage.removeItem("tasks");
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};

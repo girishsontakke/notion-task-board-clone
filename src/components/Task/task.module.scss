@@ -4,12 +4,20 @@
   box-shadow: #0f0f0f1a 0px 0px 0px 1px, #0f0f0f1a 0px 2px 4px;
   border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   p {
     margin: 0px;
   }
-
+  .deleteIcon {
+    display: none;
+  }
   &:hover {
     background-color: #37352f08;
+    .deleteIcon {
+      display: block;
+    }
   }
 }
