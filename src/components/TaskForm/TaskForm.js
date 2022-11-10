@@ -1,85 +1,87 @@
 import { Button, Form, Input, Select } from "antd";
-import React from "react";
+import { TaskContext } from "context/TaskContextProvider";
+import { TaskFormContext } from "context/TaskFormContextProvider";
+import statuslist from "data/status";
+import React, { useContext, useEffect } from "react";
+import styles from "./taskForm.module.scss";
 
 const Option = Select.Option;
 
 function TaskForm() {
   const [form] = Form.useForm();
+  const { setIsModalOpen } = useContext(TaskContext);
+  const { initialValues, setInitialValues } = useContext(TaskFormContext);
 
-  const onGenderChange = (value) => {
-    switch (value) {
-      case "male":
-        form.setFieldsValue({ note: "Hi, man!" });
-        return;
-      case "female":
-        form.setFieldsValue({ note: "Hi, lady!" });
-        return;
-      case "other":
-        form.setFieldsValue({ note: "Hi there!" });
-        return;
-      default:
-        return;
-    }
+  useEffect(() => {
+    form.setFieldValue(initialValues);
+    return () => {
+      form.resetFields();
+    };
+  }, [initialValues]);
+
+  const layout = {
+    labelCol: { span: 5 },
+    wrapperCol: { span: 16 }
+  };
+  const tailLayout = {
+    wrapperCol: { offset: 5, span: 16 }
   };
 
-  const onFinish = (values) => {
-    console.log(values);
+  const onFinish = async (values) => {
+    const tasks = (await JSON.parse(localStorage.getItem("tasks"))) || [];
+    tasks.push({
+      ...values,
+      id: new Date().toISOString()
+    });
+    localStorage.removeItem("tasks");
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    form.resetFields();
+    setInitialValues(null);
+    window.dispatchEvent(new Event("storage"));
+    setIsModalOpen(false);
   };
 
   const onReset = () => {
     form.resetFields();
   };
 
-  const onFill = () => {
-    form.setFieldsValue({
-      note: "Hello world!",
-      gender: "male"
-    });
-  };
-
   return (
-    <Form form={form} name="control-hooks" onFinish={onFinish}>
-      <Form.Item name="note" label="Note" rules={[{ required: true }]}>
+    <Form
+      {...layout}
+      form={form}
+      name="task-creat-update-form"
+      onFinish={onFinish}
+      initialValues={initialValues}
+    >
+      <Form.Item
+        name="title"
+        label="Task"
+        rules={[{ required: true, message: "'task' is required" }]}
+      >
         <Input />
       </Form.Item>
-      <Form.Item name="gender" label="Gender" rules={[{ required: true }]}>
-        <Select
-          placeholder="Select a option and change input text above"
-          onChange={onGenderChange}
-          allowClear
-        >
-          <Option value="male">male</Option>
-          <Option value="female">female</Option>
-          <Option value="other">other</Option>
+      <Form.Item name="status" label="Status" rules={[{ required: true }]}>
+        <Select placeholder="Select a status of the task" allowClear>
+          {statuslist.map((status) => (
+            <Option key={status.id} value={status.id}>
+              {status.title}
+            </Option>
+          ))}
         </Select>
       </Form.Item>
-      <Form.Item
-        noStyle
-        shouldUpdate={(prevValues, currentValues) =>
-          prevValues.gender !== currentValues.gender
-        }
-      >
-        {({ getFieldValue }) =>
-          getFieldValue("gender") === "other" ? (
-            <Form.Item
-              name="customizeGender"
-              label="Customize Gender"
-              rules={[{ required: true }]}
-            >
-              <Input />
-            </Form.Item>
-          ) : null
-        }
+      <Form.Item name="description" label="Description">
+        <Input.TextArea rows={5} />
       </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
+      <Form.Item {...tailLayout}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          className={styles.submitButton}
+        >
           Submit
         </Button>
         <Button htmlType="button" onClick={onReset}>
           Reset
-        </Button>
-        <Button type="link" htmlType="button" onClick={onFill}>
-          Fill form
         </Button>
       </Form.Item>
     </Form>

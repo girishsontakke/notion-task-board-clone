@@ -1,12 +1,15 @@
 import TaskContextProvider from "context/TaskContextProvider";
+import TaskFormContextProvider from "context/TaskFormContextProvider";
 import "./App.css";
 import Home from "./pages/Home/Home";
 
 function App() {
   return (
-    <TaskContextProvider>
-      <Home />
-    </TaskContextProvider>
+    <TaskFormContextProvider>
+      <TaskContextProvider>
+        <Home />
+      </TaskContextProvider>
+    </TaskFormContextProvider>
   );
 }
 
