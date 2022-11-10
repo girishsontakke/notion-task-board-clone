@@ -18,6 +18,7 @@ function TaskForm() {
     return () => {
       form.resetFields();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialValues]);
 
   const layout = {
