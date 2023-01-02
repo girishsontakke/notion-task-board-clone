@@ -13,7 +13,6 @@ You can run the project in local environment with the command
 
 ```
 yarn start
-
 ```
 
 or
